@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { registrarUsuario } from "../../../services/serviciosUsuario.js"
 
 export function FormularioUsuario(){
 
@@ -9,6 +10,22 @@ export function FormularioUsuario(){
     const[contraseñaUsuario,setContraseñaUsuario]=useState('')
     const[fechaUsuario,setFechaUsuario]=useState('')
     const[ciudadUsuario,setCiudadUsuario]=useState('')
+
+    const[formularioEnviado, setFormularioEnviado]=useState(false)
+    const[datosFormulario, setDatosFormulario]=useState("")
+
+    //useEffect para controlar el llamado al api
+    useEffect(function(){
+        if(formularioEnviado==true){
+           console.log("me voy para el back a consumir")
+           //console.log(datosFormulario)
+           registrarUsuario(datosFormulario)
+           .then(function(respuestaBack){
+            console.log(respuestaBack)
+           })
+           setFormularioEnviado(false)
+        }
+    },[formularioEnviado])
 
     function procesarFormulario(evento){
         evento.preventDefault()
@@ -21,7 +38,9 @@ export function FormularioUsuario(){
             fechaRegistro:fechaUsuario,
             ciudad:ciudadUsuario
         }
-        console.log(datosUsuario)
+        //console.log(datosUsuario)
+        setDatosFormulario(datosUsuario)
+        setFormularioEnviado(true)
     }
 
     return(

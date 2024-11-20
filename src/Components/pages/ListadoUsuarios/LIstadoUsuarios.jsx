@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react";
+import {buscarUsuarios} from "../../../services/serviciosUsuario.js"
 export function ListadoUsuarios(){
 
     //SIMULANDO UN CONJUNTO DE DATOS QUE VIENE DEL BACK
@@ -41,16 +42,26 @@ export function ListadoUsuarios(){
 
     //Programo el useeffect para garantizar que llamare al servicio
     //y voy a trael los datos
-    /*useEffect(function(){},[
+    useEffect(function() {
         //ACA SE LLAMA AL SERVICIO (back)
-        function(){
-             //SE CARGA LA VARIABLE DE ESTADO CON LOS DATOS SERVICIO
-            setDatosApi(usuarios)
-            //SE CAMBIA LA VARIABLE DE ESTADO DE LA CARGA
-            setEstadoCarga(false)
-        }
-    ])*/
+        buscarUsuarios()
+        .then(function(respuestaBack){
+            //console.log(respuestaBack)
+            datosAPI(respuestaBack)
+            estadoCarga(false)
+        })
+    }, [])
 
+    if(estadoCarga==true){
+        return(
+            <h3>Cargando datos...</h3>
+        )
+    }else{
+        return(
+            <h3>Error al cargar los datos...</h3>
+        )
+    }
+}
 
     return(
 
@@ -59,7 +70,7 @@ export function ListadoUsuarios(){
 
             <br /><br /><br /><br /><br />
             {
-                console.log(usuarios)
+                
             }
 
             <h3>LISTADO DE USUARIOS</h3>
@@ -86,9 +97,5 @@ export function ListadoUsuarios(){
             
 
         </>
-    )
-
-
-
-
-}
+       )
+    
