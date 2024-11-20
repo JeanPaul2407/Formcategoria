@@ -38,6 +38,11 @@ export function Menu() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/CategoriaForm">
+                  Categoria Form 
+                </Link>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link disabled" aria-disabled="true">
                   Disabled
                 </a>
